@@ -1,0 +1,106 @@
+/* Custom Styles & Utilities for ObjecTrack */
+
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap');
+
+body {
+    font-family: 'Outfit', sans-serif;
+}
+
+/* Glassmorphism Panel Utility */
+.glass-panel {
+    background: rgba(30, 41, 59, 0.4);
+    /* Tailwind dark-800 with 40% opacity */
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    /* Subtle white border */
+}
+
+/* Custom Scrollbar for results list */
+.custom-scrollbar::-webkit-scrollbar {
+    width: 6px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+    background: rgba(15, 23, 42, 0.5);
+    /* dark-900 */
+    border-radius: 4px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+    background: rgba(34, 197, 94, 0.5);
+    /* brand-500 */
+    border-radius: 4px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: rgba(34, 197, 94, 0.8);
+}
+
+/* Bounding Box Styles */
+.bounding-box {
+    position: absolute;
+    border: 2px solid #22c55e;
+    /* brand-500 */
+    background-color: rgba(34, 197, 94, 0.1);
+    transition: all 0.3s ease;
+    cursor: crosshair;
+    box-shadow: 0 0 10px rgba(34, 197, 94, 0.3);
+    border-radius: 2px;
+}
+
+/* Pulse effect on hover */
+.bounding-box:hover {
+    background-color: rgba(34, 197, 94, 0.2);
+    box-shadow: 0 0 15px rgba(34, 197, 94, 0.6);
+    z-index: 10;
+}
+
+/* Bounding Box Label */
+.bounding-box-label {
+    position: absolute;
+    top: -24px;
+    left: -2px;
+    background-color: #22c55e;
+    color: #ffffff;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 4px 4px 0 0;
+    white-space: nowrap;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+    letter-spacing: 0.5px;
+    box-shadow: 0 -2px 5px rgba(34, 197, 94, 0.3);
+}
+
+/* Image Container needs to fit exactly to the image dimensions to draw boxes accurately based on percentages */
+#imageContainer {
+    display: inline-block;
+    /* Shrinks container to fit image exactly */
+    position: relative;
+    max-width: 100%;
+}
+
+img#previewImage {
+    display: block;
+    /* Removes bottom space */
+    max-width: 100%;
+    height: auto;
+}
+
+/* Bounding box animation sequence */
+@keyframes drawBox {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.box-animate {
+    animation: drawBox 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}

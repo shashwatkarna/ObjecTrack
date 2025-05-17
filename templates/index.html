@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ObjecTrack - Wildlife Detection</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Outfit', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#f0fdf4',
+                            100: '#dcfce7',
+                            500: '#22c55e',
+                            600: '#16a34a',
+                            700: '#15803d',
+                            900: '#14532d',
+                        },
+                        dark: {
+                            900: '#0f172a',
+                            800: '#1e293b',
+                            700: '#334155',
+                        }
+                    },
+                    animation: {
+                        'blob': 'blob 7s infinite',
+                        'fade-in-up': 'fadeInUp 0.5s ease-out forwards',
+                    },
+                    keyframes: {
+                        blob: {
+                            '0%': { transform: 'translate(0px, 0px) scale(1)' },
+                            '33%': { transform: 'translate(30px, -50px) scale(1.1)' },
+                            '66%': { transform: 'translate(-20px, 20px) scale(0.9)' },
+                            '100%': { transform: 'translate(0px, 0px) scale(1)' },
+                        },
+                        fadeInUp: {
+                            '0%': { opacity: '0', transform: 'translateY(20px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <!-- Phosphor Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+</head>
+
+<body
+    class="bg-dark-900 text-slate-200 min-h-screen flex flex-col antialiased relative overflow-x-hidden selection:bg-brand-500 selection:text-white">
+
+    <!-- Animated Background Blobs -->
+    <div class="absolute top-0 left-0 w-full h-full overflow-hidden -z-10 pointer-events-none">
+        <div
+            class="absolute top-[-10%] left-[-10%] w-96 h-96 bg-brand-600/20 rounded-full mix-blend-multiply filter blur-3xl opacity-70 animate-blob">
+        </div>
+        <div
+            class="absolute top-[20%] right-[-10%] w-96 h-96 bg-blue-600/20 rounded-full mix-blend-multiply filter blur-3xl opacity-70 animate-blob animation-delay-2000">
+        </div>
+        <div
+            class="absolute bottom-[-20%] left-[20%] w-96 h-96 bg-purple-600/20 rounded-full mix-blend-multiply filter blur-3xl opacity-70 animate-blob animation-delay-4000">
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="sticky top-0 z-50 backdrop-blur-md bg-dark-900/80 border-b border-white/10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center gap-2">
+                    <div
+                        class="w-8 h-8 rounded-lg bg-gradient-to-br from-brand-400 to-brand-600 flex items-center justify-center text-white font-bold shadow-lg shadow-brand-500/30">
+                        <i class="ph ph-bounding-box text-xl"></i>
+                    </div>
+                    <span class="font-bold text-xl tracking-tight text-white flex items-center gap-1">
+                        Objec<span class="text-brand-500">Track</span>
+                    </span>
+                </div>
+                <div>
+                    <a href="https://github.com/shashwatkarna/ObjecTrack" target="_blank"
+                        class="text-slate-400 hover:text-white transition-colors duration-200">
+                        <i class="ph ph-github-logo text-2xl"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main
+        class="flex-grow flex flex-col items-center justify-start pt-12 pb-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full">
+        <!-- Header -->
+        <div class="text-center mb-12 animate-fade-in-up">
+            <h1 class="text-4xl md:text-5xl lg:text-6xl font-extrabold text-white mb-4 tracking-tight">
+                Detect Wildlife with <br class="hidden sm:block" />
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-400 to-emerald-300">Precision
+                    AR</span>
+            </h1>
+            <p class="text-lg md:text-xl text-slate-400 max-w-2xl mx-auto font-light leading-relaxed">
+                Upload an image to instantly identify animal species. Powered by advanced computer vision to draw
+                accurate bounding boxes in real-time.
+            </p>
+        </div>
+
+        <div class="w-full max-w-6xl grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+
+            <!-- Left Column: Upload Section -->
+            <section
+                class="glass-panel rounded-2xl p-8 shadow-2xl animate-fade-in-up flex flex-col items-center justify-center h-full min-h-[400px] border border-white/5"
+                style="animation-delay: 0.1s;">
+                <h2 class="text-2xl font-bold text-white mb-6 w-full text-left flex items-center gap-2">
+                    <i class="ph-fill ph-upload-simple text-brand-500"></i> Upload Image
+                </h2>
+
+                <form id="uploadForm" enctype="multipart/form-data"
+                    class="w-full flex-grow flex flex-col justify-center">
+
+                    <!-- Drag & Drop Zone -->
+                    <div id="dropZone"
+                        class="relative group cursor-pointer flex flex-col items-center justify-center w-full h-64 border-2 border-dashed border-slate-600 rounded-xl bg-dark-800/50 hover:bg-dark-800 hover:border-brand-500 transition-all duration-300 ease-in-out">
+                        <input type="file" id="fileInput" name="file" accept="image/*"
+                            class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10" required>
+
+                        <div
+                            class="text-center z-0 pointer-events-none group-hover:scale-105 transition-transform duration-300">
+                            <div
+                                class="w-16 h-16 mx-auto mb-4 rounded-full bg-slate-800 flex items-center justify-center text-brand-500 group-hover:bg-brand-500/20 transition-colors">
+                                <i class="ph ph-image text-3xl"></i>
+                            </div>
+                            <p class="text-sm font-semibold text-slate-300 mb-1">Click to upload or drag and drop</p>
+                            <p class="text-xs text-slate-500">SVG, PNG, JPG or GIF (MAX. 800x400px)</p>
+                        </div>
+                    </div>
+
+                    <div id="fileInfo"
+                        class="hidden mt-4 align-center bg-dark-800 rounded-lg p-3 border border-slate-700 flex justify-between items-center">
+                        <span id="fileName" class="text-sm text-slate-300 truncate max-w-[200px] font-medium"></span>
+                        <button type="button" id="removeFileBtn"
+                            class="text-slate-500 hover:text-red-400 transition-colors">
+                            <i class="ph ph-x-circle text-lg"></i>
+                        </button>
+                    </div>
+
+                    <button type="submit" id="submitBtn"
+                        class="mt-6 w-full bg-brand-600 hover:bg-brand-500 text-white font-semibold py-3 px-6 rounded-xl shadow-lg shadow-brand-500/20 transition-all duration-200 ease-in-out transform hover:-translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:translate-y-0 flex items-center justify-center gap-2"
+                        disabled>
+                        <i class="ph-bold ph-magnifying-glass"></i> Detect Animals
+                    </button>
+                </form>
+            </section>
+
+            <!-- Right Column: Preview & Results -->
+            <section
+                class="glass-panel rounded-2xl p-8 shadow-2xl animate-fade-in-up h-full min-h-[400px] border border-white/5 flex flex-col"
+                style="animation-delay: 0.2s;">
+                <div class="flex items-center justify-between mb-6">
+                    <h2 class="text-2xl font-bold text-white flex items-center gap-2">
+                        <i class="ph-fill ph-aperture text-brand-500"></i> Analysis
+                    </h2>
+                    <span id="detectionCountBadge"
+                        class="hidden bg-brand-500/20 text-brand-400 text-xs font-bold px-3 pt-1 pb-1.5 rounded-full border border-brand-500/30"></span>
+                </div>
+
+                <!-- Preview Area -->
+                <div
+                    class="relative w-full flex-grow bg-dark-800 rounded-xl overflow-hidden border border-slate-700 flex items-center justify-center min-h-[300px]">
+
+                    <!-- Empty State -->
+                    <div id="previewEmptyState" class="text-center text-slate-500 flex flex-col items-center">
+                        <i class="ph-light ph-image-square text-5xl mb-3 opacity-50"></i>
+                        <p class="text-sm">Image preview will appear here</p>
+                    </div>
+
+                    <!-- Image Container (where drawing happens) -->
+                    <div id="imageContainer" class="hidden relative inline-block max-w-full max-h-[500px]">
+                        <img id="previewImage" src="" alt="Preview"
+                            class="max-w-full max-h-[500px] object-contain rounded-lg shadow-md block">
+                        <!-- Bounding boxes will be injected here -->
+                    </div>
+
+                    <!-- Loading Overlay -->
+                    <div id="loadingOverlay"
+                        class="hidden absolute inset-0 bg-dark-900/80 backdrop-blur-sm z-20 flex flex-col items-center justify-center rounded-xl">
+                        <div
+                            class="loader mb-4 border-4 border-slate-700 border-t-brand-500 rounded-full w-12 h-12 animate-spin">
+                        </div>
+                        <p class="text-brand-400 font-medium tracking-wide animate-pulse">Running Model...</p>
+                    </div>
+                </div>
+
+                <!-- Results List -->
+                <div id="resultsList"
+                    class="hidden mt-6 flex flex-col gap-3 max-h-48 overflow-y-auto pr-2 custom-scrollbar">
+                    <!-- Result items injected here -->
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="mt-auto border-t border-white/5 bg-dark-900">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex flex-col md:flex-row items-center justify-between">
+            <p class="text-sm text-slate-500">
+                Made for fun and learning
+            </p>
+            <div class="flex items-center gap-4 mt-4 md:mt-0 text-slate-500 text-sm">
+                <span>Powered by YOLOv8</span>
+                <span class="w-1 h-1 rounded-full bg-slate-700"></span>
+                <span>Flask</span>
+                <span class="w-1 h-1 rounded-full bg-slate-700"></span>
+                <span>Tailwind CSS</span>
+            </div>
+        </div>
+    </footer>
+
+    <script src="{{ url_for('static', filename='scripts.js') }}"></script>
+</body>
+
+</html>
