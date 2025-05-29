@@ -138,11 +138,17 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // ----- Form Submission & Analysis -----
+    console.log('Script initialized, form found:', !!form);
 
     form.addEventListener('submit', async (e) => {
+        console.log('Form submission intercepted');
         e.preventDefault();
-        if (!currentFile) return;
+        if (!currentFile) {
+            console.log('No file selected, returning');
+            return;
+        }
 
+        console.log('Submitting file:', currentFile.name);
         // Prepare UI for loading
         submitBtn.disabled = true;
         submitBtn.innerHTML = '<i class="ph-bold ph-spinner animate-spin"></i> Analyzing...';
@@ -154,16 +160,19 @@ document.addEventListener('DOMContentLoaded', () => {
         formData.append('file', currentFile);
 
         try {
+            console.log('Fetching /predict...');
             const response = await fetch('/predict', {
                 method: 'POST',
                 body: formData
             });
 
+            console.log('Response status:', response.status);
             if (!response.ok) {
                 throw new Error(`Server error: ${response.status}`);
             }
 
             const results = await response.json();
+            console.log('Results received:', results);
             if (results.error) {
                 throw new Error(results.error);
             }
@@ -174,11 +183,12 @@ document.addEventListener('DOMContentLoaded', () => {
             resultsList.innerHTML = `
                 <div class="bg-red-900/20 border border-red-500/50 rounded-lg p-4 text-red-400 text-sm flex items-center gap-2">
                     <i class="ph-fill ph-warning-circle text-xl"></i>
-                    Something went wrong while processing the image. Ensure the server is running.
+                    Something went wrong: ${error.message}
                 </div>
             `;
             resultsList.classList.remove('hidden');
         } finally {
+            console.log('Finalizing UI state');
             // Restore UI
             submitBtn.disabled = false;
             submitBtn.innerHTML = '<i class="ph-bold ph-magnifying-glass"></i> Detect Animals';
