@@ -277,8 +277,3 @@ This project uses YOLOv8 by Ultralytics (licensed under AGPL-3.0).
 - [YOLOv8 Documentation](https://docs.ultralytics.com/)
 - [Flask Documentation](https://flask.palletsprojects.com/)
 - [PyTorch Documentation](https://pytorch.org/docs/)
-
----
-
-**Created**: February 2026  
-**Last Updated**: February 22, 2026
