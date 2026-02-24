@@ -1,4 +1,4 @@
-# ObjecTrack: Animal Object Detection System using YOLOv8
+# ObjecTrack: Object Detection System using YOLOv8
 
 A Flask-based web application for real-time animal detection and classification using YOLOv8 deep learning model.
 
