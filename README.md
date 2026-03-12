@@ -1,4 +1,4 @@
-# ObjecTrack: Animal Object Detection System using YOLOv8
+# ObjecTrack: Object Detection System using YOLOv8
 
 A Flask-based web application for real-time animal detection and classification using YOLOv8 deep learning model.
 
@@ -288,8 +288,3 @@ This project uses YOLOv8 by Ultralytics (licensed under AGPL-3.0).
 - [YOLOv8 Documentation](https://docs.ultralytics.com/)
 - [Flask Documentation](https://flask.palletsprojects.com/)
 - [PyTorch Documentation](https://pytorch.org/docs/)
-
----
-
-**Created**: February 2026  
-**Last Updated**: February 22, 2026
