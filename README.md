@@ -139,14 +139,25 @@ ObjecTrack/
 
 ### Running the Application
 
-1. **Start the Flask server**:
+You can run ObjecTrack in two modes using the same `app.py` file:
+
+1. **Web App (Flask)**:
    ```bash
    python app.py
    ```
+   Access at: `http://localhost:5000`
 
-2. **Access the web interface**:
-   - Open your browser and navigate to: `http://localhost:5000`
+2. **Dashboard (Streamlit)**:
+   ```bash
+   streamlit run app.py
+   ```
+   Access at the prompted URL (usually `http://localhost:8501`).
 
+### Deployment (Streamlit Cloud)
+
+To deploy on Streamlit Cloud:
+1. Ensure `packages.txt` (containing `libgl1`) is in your repository.
+2. Select `app.py` as your main file.
 3. **Make predictions**:
    - Upload an animal image using the web form
    - Click "Predict" button
