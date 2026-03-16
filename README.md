@@ -4,7 +4,7 @@ A Flask-based web application for real-time animal detection and classification 
 
 ## Project Overview
 
-This project implements a **YOLO v8 object detection system** fine-tuned to detect and classify **12 different animal species**:
+This project implements a **YOLO v8 object detection system** trained to detect and classify **12 different animal species**:
 - Bird
 - Butterfly
 - Cat
